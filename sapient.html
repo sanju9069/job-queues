@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" crossorigin="anonymous">
+    <title>Sapient</title>
+    <style>
+        .cardHeader{
+            color: rgb(25, 107, 255);
+        }
+        .sortingIcon{
+            cursor: pointer;
+            position: relative;
+        }
+
+        @media (max-width: 576px) {
+            .padding-0{
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="container padding-0">
+            <div class="col-12 trackWrap padding-0">
+                <div class="row">
+                    <div class="col-12 text-right mt-3 dropdown">
+                        <span class="sortingIcon" data-toggle="dropdown">Sort By <i class="fa fa-sort" aria-hidden="true"></i>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <span class="dropdown-item sortText" id="nameVal">Name</span>
+                            <h5 class="dropdown-header">Job Status</h5>
+                            <span class="dropdown-item sortText" id="">Not Started</span>
+                            <span class="dropdown-item sortText" id="">Queued</span>
+                            <span class="dropdown-item sortText" id="">Running</span>
+                            <span class="dropdown-item sortText" id="">Done</span>
+                            <h5 class="dropdown-header">Priority</h5>
+                            <span class="dropdown-item sortText" id="">High</span>
+                            <span class="dropdown-item sortText" id="">Very High</span>
+                            <span class="dropdown-item sortText" id="">Low</span>
+                            <span class="dropdown-item sortText" id="">Medium</span>
+                        </div>
+                        </span>
+                        
+                    </div>
+                </div>
+                <div id="cardBody"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script>
+        const jobs = [
+        {
+            id: 4,
+            name: 'Sapient 4',
+            description: 'Team Lead',
+            status: 'Done',
+            priority: 'Very High',
+            details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+        },
+        
+        {
+            id: 2,
+            name: 'Sapient 2',
+            description: 'Back end developer',
+            status: 'Queued',
+            priority: 'Low',
+            details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+        },
+        {
+            id: 1,
+            name: 'Sapient 1',
+            description: 'Front end developer',
+            status: 'Not Started',
+            priority: 'High',
+            details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+        },
+
+        {
+            id: 3,
+            name: 'Sapient 3',
+            description: 'Assistant Manager',
+            status: 'Running',
+            priority: 'Medium',
+            details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+        }
+        
+    ];
+        $(document).ready(function(){
+            let cardVAlue = ''
+
+            const cardValue = () =>{
+                for(let i=0; i<jobs.length; i++){
+                    document.getElementById("cardBody").innerHTML += `<div class="card mt-4">
+                        <div class="card-body"><h4 class="card-title cardHeader">${jobs[i].name}</h4>
+                            <p class="card-text">${jobs[i].description}</p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <span class="card-link">${jobs[i].status}</span>
+                                    <span class="card-link">${jobs[i].priority}</span>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <a style="cursor: pointer;color: #007bff;" class="card-link jobDetail" id=${jobs[i].id}>Job Detail</a>
+                                </div>
+                            </div>
+                            <div class="detailView" style="display:none;" id="${jobs[i].id}div">
+                            <hr></hr>
+                            <p class="mt-4">${jobs[i].details}</p></div></div>
+                    </div>`
+                }
+            };
+
+           
+            cardValue();
+
+            $(".sortText").click(function(){
+                let innnerText = $(this).text()
+                if(innnerText === 'Name'){
+                    jobs.sort((a, b) => {return a.id - b.id});
+                    $('#cardBody').empty();
+                    cardValue();
+                }                
+            });
+           
+            $(document).on('click', '.jobDetail', function() {
+                let valID = $(this).attr('id');
+                $('.detailView').hide();
+                $('#'+valID+'div').show();
+            });
+           
+        });
+    </script>
+  </body>
+</html>
